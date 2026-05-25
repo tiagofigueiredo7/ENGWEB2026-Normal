@@ -1,0 +1,9 @@
+[
+  { "titulo": "O Senhor dos Anéis", "autor": "J.R.R. Tolkien", "paginas": 1178, "genero": "Fantasia", "lido": true },
+  { "titulo": "1984", "autor": "George Orwell", "paginas": 328, "genero": "Distopia", "lido": true },
+  { "titulo": "Duna", "autor": "Frank Herbert", "paginas": 604, "genero": "Ficção Científica", "lido": false },
+  { "titulo": "O Nome do Vento", "autor": "Patrick Rothfuss", "paginas": 662, "genero": "Fantasia", "lido": false },
+  { "titulo": "O Apanhador no Centeio", "autor": "J.D. Salinger", "paginas": 224, "genero": "Ficção", "lido": true },
+  { "titulo": "Sapiens", "autor": "Yuval Noah Harari", "paginas": 443, "genero": "Não Ficção", "lido": false },
+  { "titulo": "O Guia do Mochileiro das Galáxias", "autor": "Douglas Adams", "paginas": 224, "genero": "Ficção Científica", "lido": false }
+]

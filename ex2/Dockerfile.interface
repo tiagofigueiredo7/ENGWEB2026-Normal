@@ -1,0 +1,7 @@
+FROM nginx:alpine
+
+# Copia o ficheiro HTML para a diretoria do Nginx
+COPY index.html /usr/share/nginx/html/index.html
+
+# Expõe a porta 80 para o Nginx
+EXPOSE 80

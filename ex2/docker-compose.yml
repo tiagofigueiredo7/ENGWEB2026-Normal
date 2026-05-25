@@ -1,0 +1,39 @@
+services:
+  mongo:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.mongo
+    container_name: leituras_mongo
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - internal-network
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.api
+    container_name: leituras_api
+    ports:
+      - "19020:19020"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/leituras
+    depends_on:
+      - mongo
+    networks:
+      - internal-network
+    restart: on-failure
+
+  interface:
+    build:
+      context: .
+      dockerfile: Dockerfile.interface
+    container_name: leituras_interface
+    ports:
+      - "19021:80"
+
+networks:
+  internal-network:
+
+volumes:
+  mongo_data:

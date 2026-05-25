@@ -1,0 +1,253 @@
+openapi: 3.0.0
+info:
+  title: API de Jogos de Tabuleiro
+  description: API de dados para gerir jogos de tabuleiro.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:17000
+    description: Servidor Local
+
+paths:
+  /jogos:
+    get:
+      summary: Lista todos os jogos (ou filtra por editora)
+      tags:
+        - Jogos
+      parameters:
+        - name: editora
+          in: query
+          required: false
+          description: Nome da editora para filtrar os jogos
+          schema:
+            type: string
+      responses:
+        200:
+          description: Lista de jogos retornada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    year:
+                      type: integer
+                    category:
+                      type: string
+                    minPlayers:
+                      type: integer
+        500:
+          description: Erro interno do servidor.
+
+    post:
+      summary: Adiciona um novo jogo à base de dados
+      tags:
+        - Jogos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Jogo'
+      responses:
+        201:
+          description: Jogo criado com sucesso.
+        400:
+          description: Dados inválidos.
+
+  /jogos/{id}:
+    get:
+      summary: Devolve toda a informação de um jogo
+      tags:
+        - Jogos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identificador do jogo (ex. catan)
+          schema:
+            type: string
+      responses:
+        200:
+          description: Informação completa do jogo.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jogo'
+        404:
+          description: Jogo não encontrado.
+
+    put:
+      summary: Atualiza o registo de um jogo
+      tags:
+        - Jogos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identificador do jogo
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Jogo'
+      responses:
+        200:
+          description: Jogo atualizado com sucesso.
+        404:
+          description: Jogo não encontrado.
+
+    delete:
+      summary: Remove um jogo da base de dados
+      tags:
+        - Jogos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identificador do jogo
+          schema:
+            type: string
+      responses:
+        200:
+          description: Jogo eliminado com sucesso.
+        404:
+          description: Jogo não encontrado.
+
+  /autores:
+    get:
+      summary: Lista todos os autores, ordenada alfabeticamente e sem repetições
+      tags:
+        - Autores
+      responses:
+        200:
+          description: Lista de autores com os seus jogos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    autor:
+                      type: string
+                    jogos:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          name:
+                            type: string
+
+  /categorias:
+    get:
+      summary: Lista todas as categorias, ordenada alfabeticamente e sem repetições
+      tags:
+        - Categorias
+      responses:
+        200:
+          description: Lista de categorias com os seus jogos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    categoria:
+                      type: string
+                    jogos:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          name:
+                            type: string
+
+components:
+  schemas:
+    Jogo:
+      type: object
+      required:
+        - id
+        - name
+        - year
+        - category
+        - minPlayers
+        - maxPlayers
+      properties:
+        id:
+          type: string
+          example: catan
+        name:
+          type: string
+          example: Catan
+        year:
+          type: integer
+          example: 1995
+        category:
+          type: string
+          example: Family
+        minPlayers:
+          type: integer
+          example: 3
+        maxPlayers:
+          type: integer
+          example: 4
+        playingTimeMinutes:
+          type: integer
+          example: 120
+        descriptionEN:
+          type: string
+        autores:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+        editoras:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              country:
+                type: string
+        mecanicas:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+        premios:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              year:
+                type: integer

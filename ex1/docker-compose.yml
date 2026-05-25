@@ -1,0 +1,29 @@
+services:
+  mongo:
+    build:
+      context: .
+      dockerfile: Dockerfile.mongo
+    container_name: jogos_mongo
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - jogos-network
+
+  api:
+    build: .
+    container_name: jogos_api
+    ports:
+      - "17000:17000"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/jogostabuleiro
+    depends_on:
+      - mongo
+    networks:
+      - jogos-network
+    restart: on-failure
+
+networks:
+  jogos-network:
+
+volumes:
+  mongo_data:
